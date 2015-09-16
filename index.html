@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Forum</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="reset.css" type="text/css" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+  </head>
+  <body>
+
+    <header>
+      Chat <span id='count'>(0)</span>
+      <!--<div id='subtitle'>You are not allowed to use E</div>-->
+    </header>
+    <div class='content'>
+      <form action='javascript:post()'>
+        <input id='text' placeholder="Enter a message" />
+        <span id='time'></span>
+      </form>
+      <section id='messages'>
+      </section>
+    </div>
+    <script>
+var socket = io();
+
+function post() {
+  var msg = $('#text').val();
+  $('#text').val('');
+  socket.emit('msg', msg);
+}
+
+socket.on('msg', function(color, msg) {
+    var style="";
+    if(color.substr(0,1) == "!") {
+      style = "color: #fff;";
+      color = color.substr(1);
+    }
+    style += "background: " + color;
+    var article = $("<article style='"+style+"'></article>").text(msg);
+    article.fadeIn(400);
+    article.slideDown(400);
+    $('#messages').prepend(article);
+});
+
+socket.on('color', function(color) {
+  if(color.substr(0,1) == "!") {
+    $('header').css('color', '#fff');
+    color = color.substr(1);
+  } else {
+      $('body').css('background', '#000');
+  }
+  $('header').css('background', color);
+
+})
+
+socket.on('count', function(count) {
+  $('#count').text('('+count+')');
+})
+
+    </script>
+  </body>
+</html>
