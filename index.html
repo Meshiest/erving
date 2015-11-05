@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Forum</title>
+    <title>Chat</title>
     <script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
@@ -21,7 +21,7 @@
   <body>
 
     <header>
-      Erving <span id='count'>(0)</span>
+      Chat <span id='count'>(0 online)</span>
       <!--<div id='subtitle'>You are not allowed to use E</div>-->
     </header>
     <div class='content'>
@@ -66,7 +66,7 @@ socket.on('color', function(color) {
 })
 
 socket.on('count', function(count) {
-  $('#count').text('('+count+')');
+  $('#count').text('('+count+' online)');
 })
 
     </script>
